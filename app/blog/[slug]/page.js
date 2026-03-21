@@ -2,6 +2,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { dbQuery, getDatabaseConfigError } from "@/lib/db";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.mechanicsetu.tech";
+
 async function getBlogBySlug(slug) {
   if (getDatabaseConfigError()) return null;
 
@@ -28,15 +30,49 @@ export async function generateMetadata({ params }) {
 
   if (!blog) {
     return {
-      title: "Post Not Found | Mechanic Setu Blog",
+      title: "Post Not Found",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
+
+  const canonicalPath = `/blog/${blog.slug}`;
 
   return {
     title: blog.meta_title || blog.title,
     description:
       blog.meta_description ||
       "Mechanic Setu article about roadside assistance and vehicle care.",
+    alternates: {
+      canonical: canonicalPath,
+    },
+    openGraph: {
+      type: "article",
+      url: `${siteUrl}${canonicalPath}`,
+      title: blog.meta_title || blog.title,
+      description:
+        blog.meta_description ||
+        "Mechanic Setu article about roadside assistance and vehicle care.",
+      publishedTime: blog.published_at || undefined,
+      images: blog.banner_url
+        ? [
+            {
+              url: blog.banner_url,
+              alt: blog.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.meta_title || blog.title,
+      description:
+        blog.meta_description ||
+        "Mechanic Setu article about roadside assistance and vehicle care.",
+      images: blog.banner_url ? [blog.banner_url] : undefined,
+    },
   };
 }
 

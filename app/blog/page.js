@@ -3,10 +3,28 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { dbQuery, getDatabaseConfigError } from "@/lib/db";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.mechanicsetu.tech";
+
 export const metadata = {
-  title: "Mechanic Setu Blog",
+  title: "Blog",
   description:
     "Read roadside assistance guides, maintenance tips, and local mechanic insights from Mechanic Setu.",
+  alternates: {
+    canonical: "/blog",
+  },
+  openGraph: {
+    title: "Mechanic Setu Blog",
+    description:
+      "Read roadside assistance guides, maintenance tips, and local mechanic insights from Mechanic Setu.",
+    url: `${siteUrl}/blog`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mechanic Setu Blog",
+    description:
+      "Read roadside assistance guides, maintenance tips, and local mechanic insights from Mechanic Setu.",
+  },
 };
 
 async function getPublishedBlogs() {

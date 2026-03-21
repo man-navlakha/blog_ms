@@ -3,6 +3,11 @@ import BlogEditor from "@/components/BlogEditor";
 import { getAuthenticatedStaff } from "@/lib/auth";
 import { dbQuery, getDatabaseConfigError } from "@/lib/db";
 
+export const metadata = {
+  title: "Edit Blog",
+  description: "Edit and update existing blog posts in Mechanic Setu admin.",
+};
+
 async function getBlog(slug) {
   if (getDatabaseConfigError()) return null;
 

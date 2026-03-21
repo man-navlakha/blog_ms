@@ -3,6 +3,30 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.mechanicsetu.tech";
+
+export const metadata = {
+  title: "Home",
+  description:
+    "Explore Mechanic Setu stories, roadside assistance guides, vehicle care tips, and latest updates from our team.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Mechanic Setu Blog",
+    description:
+      "Explore Mechanic Setu stories, roadside assistance guides, vehicle care tips, and latest updates from our team.",
+    url: siteUrl,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mechanic Setu Blog",
+    description:
+      "Explore Mechanic Setu stories, roadside assistance guides, vehicle care tips, and latest updates from our team.",
+  },
+};
+
 const recentPosts = [
   {
     title: "Conversations with London Mark & Co.",
