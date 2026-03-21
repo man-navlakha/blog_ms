@@ -1,0 +1,47 @@
+import { redirect } from "next/navigation";
+import BlogEditor from "@/components/BlogEditor";
+import { getAuthenticatedStaff } from "@/lib/auth";
+import { dbQuery, getDatabaseConfigError } from "@/lib/db";
+
+async function getBlog(slug) {
+  if (getDatabaseConfigError()) return null;
+
+  try {
+    const { rows } = await dbQuery(
+      `
+        select id, title, slug, content, meta_title, meta_description, banner_url, keywords, status
+        from blogs
+        where slug = $1 and deleted_at is null
+        limit 1
+      `,
+      [slug]
+    );
+
+    return rows[0] || null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function AdminEditBlogPage({ params }) {
+  const staff = await getAuthenticatedStaff();
+
+  if (!staff) {
+    redirect("/admin/login");
+  }
+
+  const { slug } = await params;
+  const blog = await getBlog(slug);
+
+  if (!blog) {
+    redirect("/admin/blog/list");
+  }
+
+  return (
+    <div className="theme-shell px-6 py-10">
+      <div className="mx-auto w-full max-w-6xl">
+        <BlogEditor mode="edit" initialData={blog} />
+      </div>
+    </div>
+  );
+}

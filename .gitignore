@@ -10,6 +10,15 @@
 !.yarn/releases
 !.yarn/versions
 
+# skills
+/skills/node_modules
+.agent/
+.agents/
+.claude/
+.commandcode/
+.continue/
+
+
 # testing
 /coverage
 
