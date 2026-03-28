@@ -10,39 +10,70 @@ export default async function AdminDashboardPage() {
   }
 
   return (
-    <div className="theme-shell px-6 py-10">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <section className="glass-card p-6 md:p-7">
-          <p className="clay-pill inline-block px-3 py-1 text-xs font-semibold uppercase muted-text">Admin</p>
-          <h1 className="mt-2 text-3xl font-black uppercase">Dashboard</h1>
-          <p className="mt-3 text-sm muted-text">
+    <div className="space-y-6">
+      <section className="admin-panel rounded-[1.75rem] p-6 md:p-7">
+        <p className="admin-kicker">Admin Overview</p>
+        <h1 className="mt-3 text-3xl font-black uppercase text-white">Dashboard</h1>
+        <p className="mt-3 text-sm text-slate-300">
+          Signed in as <strong>{staff.email}</strong>
+        </p>
+      </section>
+
+      <section className="grid gap-4 md:grid-cols-3">
+        <div className="admin-metric p-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            Workspace
+          </p>
+          <p className="mt-2 text-2xl font-bold text-white">Editorial</p>
+          <p className="mt-2 text-sm text-slate-300">
+            Review drafts, manage updates, and keep publishing consistent.
+          </p>
+        </div>
+        <div className="admin-metric p-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            Status
+          </p>
+          <p className="mt-2 text-2xl font-bold text-white">Live System</p>
+          <p className="mt-2 text-sm text-slate-300">
+            Routes, sitemap, and admin publishing workflow are available.
+          </p>
+        </div>
+        <div className="admin-metric p-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            Access
+          </p>
+          <p className="mt-2 text-2xl font-bold text-white">Staff Only</p>
+          <p className="mt-2 text-sm text-slate-300">
             Signed in as <strong>{staff.email}</strong>
           </p>
-        </section>
+        </div>
+      </section>
 
-        <section className="grid gap-4 md:grid-cols-3">
-          <Link
-            href="/admin/blog/create"
-            className="premium-btn-primary p-4 text-center"
-          >
+      <section className="admin-panel rounded-[1.75rem] p-6 md:p-7">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="admin-kicker">Quick Actions</p>
+            <h2 className="mt-3 text-2xl font-bold text-white">Content Operations</h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Jump straight into writing, editing, or ending the current staff session.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <Link href="/admin/blog/create" className="premium-btn-primary p-4 text-center">
             Create Blog
           </Link>
-          <Link
-            href="/admin/blog/list"
-            className="premium-btn-secondary p-4 text-center"
-          >
+          <Link href="/admin/blog/list" className="premium-btn-secondary p-4 text-center">
             Blogs List
           </Link>
           <form action="/api/auth/logout" method="post">
-            <button
-              type="submit"
-              className="premium-btn-ghost w-full p-4"
-            >
+            <button type="submit" className="premium-btn-ghost w-full p-4">
               Logout
             </button>
           </form>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

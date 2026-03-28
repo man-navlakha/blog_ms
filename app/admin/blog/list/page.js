@@ -23,6 +23,22 @@ async function getBlogs() {
   }
 }
 
+function formatUpdatedAt(value) {
+  if (!value) return "Recently updated";
+
+  return new Date(value).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function getStatusBadgeClass(status) {
+  return status === "published"
+    ? "border-[rgba(111,191,151,0.18)] bg-[rgba(47,125,90,0.16)] text-emerald-300"
+    : "border-[rgba(224,176,85,0.18)] bg-[rgba(120,88,34,0.18)] text-amber-300";
+}
+
 export default async function AdminBlogListPage() {
   const staff = await getAuthenticatedStaff();
 
@@ -33,33 +49,65 @@ export default async function AdminBlogListPage() {
   const blogs = await getBlogs();
 
   return (
-    <div className="theme-shell px-6 py-10">
-      <div className="glass-card mx-auto w-full max-w-5xl p-6 md:p-7">
-        <h1 className="text-3xl font-black uppercase">Blogs List</h1>
+    <div className="space-y-5">
+      <section className="admin-panel rounded-[1.75rem] p-6 md:p-7">
+        <p className="admin-kicker">Library</p>
+        <h1 className="mt-3 text-3xl font-black uppercase text-white">Blogs List</h1>
+        <p className="mt-2 text-sm text-slate-300">
+          Review every article, track status, and open items for editing.
+        </p>
+      </section>
 
+      <div className="admin-panel rounded-[1.75rem] p-6 md:p-7">
         {blogs.length === 0 ? (
-          <p className="mt-4 text-sm muted-text">No blogs yet.</p>
+          <p className="text-sm text-slate-300">No blogs yet.</p>
         ) : (
-          <div className="mt-4 overflow-x-auto">
-            <table className="morphism-table w-full text-sm">
+          <div className="overflow-hidden rounded-[1.5rem] border border-[rgba(151,179,219,0.14)] bg-[rgba(10,18,32,0.72)]">
+            <table className="w-full min-w-[760px] border-collapse text-sm">
               <thead>
-                <tr>
-                  <th className="border-b border-[var(--border-color)] p-2 text-left">Title</th>
-                  <th className="border-b border-[var(--border-color)] p-2 text-left">Slug</th>
-                  <th className="border-b border-[var(--border-color)] p-2 text-left">Status</th>
-                  <th className="border-b border-[var(--border-color)] p-2 text-left">Action</th>
+                <tr className="bg-[rgba(255,255,255,0.04)] text-slate-300">
+                  <th className="border-b border-[rgba(151,179,219,0.12)] px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.18em]">
+                    Title
+                  </th>
+                  <th className="border-b border-[rgba(151,179,219,0.12)] px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.18em]">
+                    Slug
+                  </th>
+                  <th className="border-b border-[rgba(151,179,219,0.12)] px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.18em]">
+                    Status
+                  </th>
+                  <th className="border-b border-[rgba(151,179,219,0.12)] px-4 py-3 text-right text-xs font-semibold uppercase tracking-[0.18em]">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {blogs.map((blog) => (
-                  <tr key={blog.id} className="border-t border-[var(--border-color)] even:bg-white/5">
-                    <td className="p-2">{blog.title}</td>
-                    <td className="p-2 muted-text">{blog.slug}</td>
-                    <td className="p-2 uppercase muted-text">{blog.status}</td>
-                    <td className="p-2">
+                  <tr
+                    key={blog.id}
+                    className="border-t border-[rgba(151,179,219,0.1)] transition-colors hover:bg-white/4"
+                  >
+                    <td className="px-4 py-4">
+                      <div>
+                        <p className="font-semibold text-slate-100">{blog.title}</p>
+                        <p className="mt-1 text-xs text-slate-400">
+                          Updated {formatUpdatedAt(blog.updated_at)}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4 font-mono text-xs text-slate-400">
+                      {blog.slug}
+                    </td>
+                    <td className="px-4 py-4">
+                      <span
+                        className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${getStatusBadgeClass(blog.status)}`}
+                      >
+                        {blog.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 text-right">
                       <Link
                         href={`/admin/blog/${blog.slug}/edit`}
-                        className="premium-btn-secondary px-3 py-1.5 text-xs"
+                        className="premium-btn-secondary px-4 py-2 text-xs"
                       >
                         Edit
                       </Link>

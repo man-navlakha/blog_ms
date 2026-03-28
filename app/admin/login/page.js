@@ -66,16 +66,16 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="theme-shell px-6 py-10">
-      <div className="glass-card mx-auto w-full max-w-lg p-6 md:p-7">
-        <div className="clay-pill mb-4 inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wide text-foreground">Staff Portal</div>
-        <h1 className="text-3xl font-black uppercase">Staff Admin Login</h1>
-        <p className="mt-2 text-sm muted-text">
+    <div className="flex min-h-[calc(100vh-3rem)] items-center justify-center py-6">
+      <div className="admin-panel mx-auto w-full max-w-lg rounded-[1.75rem] p-6 md:p-8">
+        <div className="admin-kicker mb-4">Staff Portal</div>
+        <h1 className="text-3xl font-black uppercase text-white">Staff Admin Login</h1>
+        <p className="mt-2 text-sm text-slate-300">
           Only <strong>@mechanicsetu.tech</strong> emails are allowed.
         </p>
 
         <form className="mt-6 space-y-4" onSubmit={handleSendOtp}>
-          <label className="block text-sm font-semibold uppercase">Email</label>
+          <label className="block text-sm font-semibold uppercase text-slate-200">Email</label>
           <input
             type="email"
             value={email}
@@ -95,7 +95,7 @@ export default function AdminLoginPage() {
 
         {otpSent ? (
           <form className="mt-6 space-y-4" onSubmit={handleVerifyOtp}>
-            <label className="block text-sm font-semibold uppercase">OTP</label>
+            <label className="block text-sm font-semibold uppercase text-slate-200">OTP</label>
             <input
               type="text"
               value={otp}
@@ -116,9 +116,9 @@ export default function AdminLoginPage() {
           </form>
         ) : null}
 
-        {message ? <p className="mt-4 text-sm font-semibold">{message}</p> : null}
+        {message ? <p className="mt-4 text-sm font-semibold text-slate-100">{message}</p> : null}
         {debugOtp ? (
-          <p className="glass-input mt-3 rounded-xl p-3 text-xs">
+          <p className="glass-input mt-3 rounded-xl p-3 text-xs text-slate-200">
             Dev OTP (remove in prod): <strong>{debugOtp}</strong>
           </p>
         ) : null}

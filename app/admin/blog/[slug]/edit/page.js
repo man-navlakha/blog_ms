@@ -44,13 +44,23 @@ export default async function AdminEditBlogPage({ params }) {
   }
 
   return (
-    <div className="theme-shell px-6 py-10">
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="mb-4">
+    <div className="space-y-5">
+      <section className="admin-panel rounded-[1.75rem] p-6 md:p-7">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="admin-kicker">Editor</p>
+            <h1 className="mt-3 text-3xl font-black text-white">Edit Blog Post</h1>
+            <p className="mt-2 text-sm text-slate-300">
+              Update content, metadata, and publication status for this article.
+            </p>
+          </div>
           <Link href="/admin/blog/list" className="premium-btn-ghost inline-flex px-4 py-2">
             Back to Blog List
           </Link>
         </div>
+      </section>
+
+      <div className="mx-auto w-full max-w-6xl">
         <BlogEditor mode="edit" initialData={blog} />
       </div>
     </div>

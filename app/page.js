@@ -58,16 +58,18 @@ function getPageHref(pageNumber) {
 export async function generateMetadata({ searchParams }) {
   const resolvedSearchParams = await searchParams;
   const currentPage = getCurrentPage(resolvedSearchParams?.page);
+  const isFirstPage = currentPage === 1;
 
   return {
-    title:
-      currentPage === 1
-        ? "Mechanic Setu Blog"
-        : `Mechanic Setu Blog - Page ${currentPage}`,
+    title: isFirstPage ? "Mechanic Setu Blog" : `Mechanic Setu Blog - Page ${currentPage}`,
     description:
       "Roadside assistance guides, vehicle maintenance tips, and local mechanic insights from Mechanic Setu.",
     alternates: {
-      canonical: currentPage === 1 ? "/" : `/?page=${currentPage}`,
+      canonical: isFirstPage ? "/" : `/?page=${currentPage}`,
+    },
+    robots: {
+      index: isFirstPage,
+      follow: true,
     },
   };
 }
@@ -84,7 +86,7 @@ export default async function Home({ searchParams }) {
   const currentPosts = blogs.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className="theme-shell px-5 pb-14 md:px-8">
+    <div className="theme-shell public-shell px-5 pb-14 md:px-8">
       <header className="glass-card mx-auto mt-6 flex w-full max-w-7xl items-center justify-between rounded-3xl px-5 py-4 md:px-7">
         <Link href="/" className="text-xl font-black tracking-tight">
           Mechanic Setu
