@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { Upload, X, Image as ImageIcon } from "lucide-react";
+import { Upload, X } from "lucide-react";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
 
@@ -51,11 +51,11 @@ const FileUpload = ({ onFileSelect = () => {}, loading = false, preview = null, 
             alt="Preview"
             width={600}
             height={300}
-            className="h-48 w-full max-w-md rounded-lg border border-border-color object-cover"
+            className="h-48 w-full max-w-md rounded-2xl border border-border-color object-cover shadow-[var(--glass-shadow)]"
           />
           <button
             onClick={handleClearPreview}
-            className="absolute right-2 top-2 rounded-full bg-red-500/90 p-2 text-white hover:bg-red-600"
+            className="absolute right-2 top-2 rounded-full bg-red-500/90 p-2 text-white backdrop-blur-sm transition-colors hover:bg-red-600"
             type="button"
           >
             <X className="h-4 w-4" />
@@ -67,13 +67,13 @@ const FileUpload = ({ onFileSelect = () => {}, loading = false, preview = null, 
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           className={cn(
-            "rounded-lg border-2 border-dashed border-border-color bg-surface/50 p-8 text-center transition-colors",
-            isDragging && "border-primary bg-primary/5"
+            "glass-card rounded-2xl border-2 border-dashed p-8 text-center transition-all",
+            isDragging && "border-[var(--primary)] bg-[var(--surface-strong)]"
           )}
         >
           <div className="flex flex-col items-center gap-3">
-            <div className="rounded-full bg-primary/10 p-3">
-              <Upload className="h-6 w-6 text-primary" />
+            <div className="clay-card rounded-full p-3">
+              <Upload className="h-6 w-6 text-foreground" />
             </div>
             <div>
               <p className="font-semibold text-foreground">Drag and drop your image here</p>

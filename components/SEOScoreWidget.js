@@ -7,8 +7,8 @@ export default function SEOScoreWidget({ score, tips }) {
   const Icon = scoreStatus.icon;
 
   return (
-    <aside className="glass-card p-6">
-      <div className={`rounded-lg ${scoreStatus.bg} p-4`}>
+    <aside className="glass-card sticky top-6 p-6">
+      <div className={`clay-card rounded-xl ${scoreStatus.bg} p-4`}>
         <div className="flex items-center gap-3">
           <Icon className={`h-6 w-6 ${scoreStatus.color}`} />
           <div>
@@ -18,7 +18,7 @@ export default function SEOScoreWidget({ score, tips }) {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-5">
         <h3 className="text-sm font-semibold text-foreground">Tips</h3>
         <ul className="mt-3 space-y-2">
           {(tips || []).length === 0 ? (

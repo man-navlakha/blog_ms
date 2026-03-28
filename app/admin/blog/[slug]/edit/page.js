@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import BlogEditor from "@/components/BlogEditor";
 import { getAuthenticatedStaff } from "@/lib/auth";
 import { dbQuery, getDatabaseConfigError } from "@/lib/db";
@@ -45,6 +46,11 @@ export default async function AdminEditBlogPage({ params }) {
   return (
     <div className="theme-shell px-6 py-10">
       <div className="mx-auto w-full max-w-6xl">
+        <div className="mb-4">
+          <Link href="/admin/blog/list" className="premium-btn-ghost inline-flex px-4 py-2">
+            Back to Blog List
+          </Link>
+        </div>
         <BlogEditor mode="edit" initialData={blog} />
       </div>
     </div>

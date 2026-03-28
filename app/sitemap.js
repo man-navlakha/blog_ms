@@ -1,36 +1,22 @@
-import { dbQuery, getDatabaseConfigError } from "@/lib/db";
+import { getPublishedBlogSummaries } from "@/lib/blogs";
+import { getSiteUrl } from "@/lib/site";
 
 export default async function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.mechanicsetu.tech";
+  const baseUrl = getSiteUrl();
 
   const staticRoutes = ["", "/blog"].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: path === "" ? 1 : 0.8,
   }));
 
-  if (getDatabaseConfigError()) {
-    return staticRoutes;
-  }
-
-  let rows = [];
-  try {
-    const queryResult = await dbQuery(
-      `
-        select slug, updated_at
-        from blogs
-        where status = 'published' and deleted_at is null
-        order by updated_at desc
-        limit 5000
-      `
-    );
-    rows = queryResult.rows || [];
-  } catch {
-    rows = [];
-  }
-
-  const blogRoutes = (rows || []).map((post) => ({
+  const blogs = await getPublishedBlogSummaries();
+  const blogRoutes = blogs.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: post.updated_at || new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
   }));
 
   return [...staticRoutes, ...blogRoutes];

@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { dbQuery, getDatabaseConfigError } from "@/lib/db";
+import {
+  getBlogDescription,
+  getPublishedBlogSummaries,
+} from "@/lib/blogs";
+import { getSiteUrl } from "@/lib/site";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.mechanicsetu.tech";
+const siteUrl = getSiteUrl();
+export const revalidate = 300;
 
 export const metadata = {
   title: "Blog",
@@ -27,40 +32,25 @@ export const metadata = {
   },
 };
 
-async function getPublishedBlogs() {
-  if (getDatabaseConfigError()) return [];
-
-  try {
-    const { rows } = await dbQuery(
-      `
-        select id, title, slug, meta_description, published_at, banner_url
-        from blogs
-        where status = 'published' and deleted_at is null
-        order by published_at desc nulls last
-        limit 50
-      `
-    );
-
-    return rows || [];
-  } catch {
-    return [];
-  }
-}
-
 export default async function BlogListPage() {
-  const blogs = await getPublishedBlogs();
+  const blogs = await getPublishedBlogSummaries();
 
   return (
     <div className="theme-shell px-6 py-10">
       <main className="mx-auto w-full max-w-7xl">
-        <header className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <header className="glass-card mb-8 flex flex-col gap-4 p-6 md:flex-row md:items-end md:justify-between md:p-8">
           <div>
             <h1 className="text-4xl font-black md:text-5xl">All blog posts</h1>
             <p className="mt-2 text-muted-ink">Stories, interviews, how-to guides, and marketing content.</p>
           </div>
-          <Button asChild variant="ghost">
-            <Link href="/admin/login">Staff Admin</Link>
-          </Button>
+          <div className="flex gap-3">
+            <Button asChild variant="ghost">
+              <Link href="/">Back Home</Link>
+            </Button>
+            <Button asChild variant="secondary">
+              <Link href="/admin/login">Staff Admin</Link>
+            </Button>
+          </div>
         </header>
 
         {blogs.length === 0 ? (
@@ -87,7 +77,9 @@ export default async function BlogListPage() {
                     : "Draft"}
                 </p>
                 <h2 className="mt-1 text-3xl font-bold leading-tight">{blog.title}</h2>
-                <p className="mt-2 text-foreground/80">{blog.meta_description || "Read full article for details."}</p>
+                <p className="mt-2 text-foreground/80">
+                  {getBlogDescription(blog) || "Read full article for details."}
+                </p>
                 <Button asChild className="mt-4" variant="secondary" size="sm">
                   <Link href={`/blog/${blog.slug}`}>Read Article</Link>
                 </Button>

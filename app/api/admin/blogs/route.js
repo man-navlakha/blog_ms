@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { revalidatePath, revalidateTag } from "next/cache";
 import {
   authConstants,
   getAuthenticatedStaffFromToken,
 } from "@/lib/auth";
+import { BLOGS_CACHE_TAG } from "@/lib/blogs";
 import { slugify } from "@/lib/slug";
 import { dbQuery, getDatabaseConfigError } from "@/lib/db";
 
@@ -105,6 +107,12 @@ export async function POST(request) {
       `,
       [staff.id, blog.id, JSON.stringify({ slug: blog.slug })]
     );
+
+    revalidateTag(BLOGS_CACHE_TAG);
+    revalidatePath("/");
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${blog.slug}`);
+    revalidatePath("/sitemap.xml");
 
     return NextResponse.json({ message: "Blog created.", blog });
   } catch (error) {

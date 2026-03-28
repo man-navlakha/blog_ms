@@ -1,12 +1,14 @@
+import { getSiteUrl } from "@/lib/site";
+
 export default function robots() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.mechanicsetu.tech";
+  const baseUrl = getSiteUrl();
 
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/api/auth"],
+        disallow: ["/admin", "/api"],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

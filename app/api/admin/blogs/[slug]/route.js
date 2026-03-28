@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { revalidatePath, revalidateTag } from "next/cache";
 import {
   authConstants,
   getAuthenticatedStaffFromToken,
 } from "@/lib/auth";
+import { BLOGS_CACHE_TAG } from "@/lib/blogs";
 import { slugify } from "@/lib/slug";
 import { dbQuery, getDatabaseConfigError } from "@/lib/db";
 
@@ -95,7 +97,7 @@ export async function PATCH(request, { params }) {
           banner_url = $6,
           keywords = $7::text[],
           status = $8,
-          published_at = case when $8='published' then now() else null end,
+          published_at = case when $8='published' then coalesce(published_at, now()) else null end,
           updated_at = now()
         where slug = $9 and deleted_at is null
         returning id, slug
@@ -128,6 +130,13 @@ export async function PATCH(request, { params }) {
       `,
       [staff.id, blog.id, JSON.stringify({ slug: blog.slug })]
     );
+
+    revalidateTag(BLOGS_CACHE_TAG);
+    revalidatePath("/");
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${currentSlug}`);
+    revalidatePath(`/blog/${blog.slug}`);
+    revalidatePath("/sitemap.xml");
 
     return NextResponse.json({ message: "Blog updated.", blog });
   } catch (error) {
@@ -179,6 +188,12 @@ export async function DELETE(request, { params }) {
       `,
       [staff.id, blog.id, JSON.stringify({ slug: blog.slug })]
     );
+
+    revalidateTag(BLOGS_CACHE_TAG);
+    revalidatePath("/");
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${slug}`);
+    revalidatePath("/sitemap.xml");
 
     return NextResponse.json({ message: "Blog deleted." });
   } catch (error) {

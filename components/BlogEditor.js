@@ -138,11 +138,11 @@ export default function BlogEditor({ mode = "create", initialData = null }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="glass-card p-6">
-          <h1 className="mb-6 text-2xl font-bold">{mode === "edit" ? "Edit Blog" : "Create Blog"}</h1>
+        <div className="glass-card p-6 md:p-7">
+          <h1 className="mb-6 text-3xl font-bold">{mode === "edit" ? "Edit Blog" : "Create Blog"}</h1>
 
           {message && (
-            <div className="mb-4 rounded-lg border border-primary/30 bg-primary/5 p-3 text-sm text-primary">
+            <div className="clay-card mb-4 rounded-xl border border-primary/30 bg-primary/10 p-3 text-sm text-foreground">
               {message}
             </div>
           )}
@@ -188,7 +188,7 @@ export default function BlogEditor({ mode = "create", initialData = null }) {
                 onChange={(e) => updateField("metaDescription", e.target.value)}
                 rows={3}
                 placeholder="SEO meta description"
-                className="glass-input flex w-full rounded-md px-3 py-2 text-sm placeholder:text-muted-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="glass-input flex w-full rounded-xl px-3 py-2 text-sm placeholder:text-muted-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
               />
             </div>
 
@@ -220,7 +220,7 @@ export default function BlogEditor({ mode = "create", initialData = null }) {
                 rows={14}
                 required
                 placeholder="Enter blog content (supports Markdown)"
-                className="glass-input flex w-full rounded-md px-3 py-2 text-sm placeholder:text-muted-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="glass-input flex w-full rounded-xl px-3 py-2 text-sm placeholder:text-muted-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
               />
             </div>
 
@@ -230,7 +230,7 @@ export default function BlogEditor({ mode = "create", initialData = null }) {
                 id="status"
                 value={form.status}
                 onChange={(e) => updateField("status", e.target.value)}
-                className="glass-input flex h-10 w-full rounded-md px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="glass-input flex h-11 w-full rounded-xl px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
               >
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
@@ -241,7 +241,7 @@ export default function BlogEditor({ mode = "create", initialData = null }) {
               <Button type="submit" disabled={submitting}>
                 {submitting ? "Saving..." : mode === "edit" ? "Update Blog" : "Create Blog"}
               </Button>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="ghost">
                 Cancel
               </Button>
             </div>

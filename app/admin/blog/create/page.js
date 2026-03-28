@@ -16,7 +16,7 @@ export default async function AdminCreateBlogPage() {
         <div className="mb-4">
           <Link
             href="/admin/dashboard"
-            className="premium-btn-ghost inline-block px-4 py-2"
+            className="premium-btn-ghost inline-flex px-4 py-2"
           >
             Back to Dashboard
           </Link>

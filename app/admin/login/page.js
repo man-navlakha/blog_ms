@@ -68,7 +68,8 @@ export default function AdminLoginPage() {
   return (
     <div className="theme-shell px-6 py-10">
       <div className="glass-card mx-auto w-full max-w-lg p-6 md:p-7">
-        <h1 className="text-2xl font-black uppercase">Staff Admin Login</h1>
+        <div className="clay-pill mb-4 inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wide text-foreground">Staff Portal</div>
+        <h1 className="text-3xl font-black uppercase">Staff Admin Login</h1>
         <p className="mt-2 text-sm muted-text">
           Only <strong>@mechanicsetu.tech</strong> emails are allowed.
         </p>
@@ -117,7 +118,7 @@ export default function AdminLoginPage() {
 
         {message ? <p className="mt-4 text-sm font-semibold">{message}</p> : null}
         {debugOtp ? (
-          <p className="mt-2 text-xs">
+          <p className="glass-input mt-3 rounded-xl p-3 text-xs">
             Dev OTP (remove in prod): <strong>{debugOtp}</strong>
           </p>
         ) : null}

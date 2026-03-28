@@ -13,7 +13,7 @@ export default async function AdminDashboardPage() {
     <div className="theme-shell px-6 py-10">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
         <section className="glass-card p-6 md:p-7">
-          <p className="text-sm font-semibold uppercase muted-text">Admin</p>
+          <p className="clay-pill inline-block px-3 py-1 text-xs font-semibold uppercase muted-text">Admin</p>
           <h1 className="mt-2 text-3xl font-black uppercase">Dashboard</h1>
           <p className="mt-3 text-sm muted-text">
             Signed in as <strong>{staff.email}</strong>
